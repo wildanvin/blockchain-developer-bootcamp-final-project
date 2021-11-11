@@ -1,0 +1,32 @@
+{
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "1.0.0",
+  "description": "betsFriends",
+  "main": "./client/dapp.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wildanvin/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [
+    "bets",
+    "friends"
+  ],
+  "author": "wildanvin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wildanvin/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/wildanvin/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.6.0"
+  }
+}
