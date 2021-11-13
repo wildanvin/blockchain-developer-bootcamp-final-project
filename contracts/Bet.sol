@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.3;
 
-contract Bet{
-    
-    uint public num;
-    address public sender;
-    uint public value;
+import "./PriceConsumerV3.sol";
+
+contract Bet is PriceConsumerV3{
     
     address payable public p1; //player 1
     address payable public p2; //player 2
@@ -162,41 +160,4 @@ contract Bet{
         }
         
     }
-    
-    
-    
-
-    function setVars(address _contract, uint _num) public payable {
-        
-        (bool success, bytes memory data) = _contract.delegatecall(
-            abi.encodeWithSignature("setVars(uint256)", _num)
-        );
-    }
-    
-    
-    
-    
-    
-    
-    /*
-    function setBettingAmount (uint _x) public {
-        bettingAmount = _x;
-    }
-    
-    function setP1predictedValue (uint _x) public {
-        p1predictedValue = _x;
-    }
-    
-    function setP2predictedValue (uint _x) public {
-        p2predictedValue = _x;
-    }
-    
-    function setP1Address (address payable _x) public {
-        p1 = _x;        
-    }
-    
-    function setP2Address (address payable _x) public {
-        p2 = _x;        
-    }
-    */
 }
