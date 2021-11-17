@@ -10,7 +10,9 @@ contract BetFactory{
     function createAndSendEther(
                 address payable _p1, 
                 address payable _p2,
-                uint _dueDate,
+                //uint _dueDate,
+                uint _numberOfTimeUnits,
+                uint _timeUnits,
                 uint _bettingAmount,
                 uint _asset,
                 uint _p1predictedValue,
@@ -22,7 +24,9 @@ contract BetFactory{
         Bet bet = (new Bet){value: msg.value}(
         _p1,
         _p2,
-        _dueDate,
+        //_dueDate,
+        _numberOfTimeUnits,
+        _timeUnits,
         _bettingAmount,
         _asset,
         _p1predictedValue,

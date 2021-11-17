@@ -26,10 +26,8 @@ contract Bet is PriceConsumerV3{
     uint public bettingAmount;
     
     /*
-    There will be will be 3 assets to bet only
-    1. bitcoin
-    2. ether
-    3. link
+    For now, we can only bet on the price of ETH
+    number 1 for ETH
     */
     uint public asset;
     
@@ -47,29 +45,45 @@ contract Bet is PriceConsumerV3{
     */
     uint public p2predictedValue;
     
-    
-    constructor(address payable _p1, 
+    uint numberOfTimeUnits;
+    uint timeUnits;
+
+    constructor (address payable _p1, 
                 address payable _p2,
-                uint _dueDate,
+                //uint _dueDate,
+                uint _numberOfTimeUnits,
+                uint _timeUnits,
                 uint _bettingAmount,
                 uint _asset,
                 uint _p1predictedValue,
                 uint _p2predictedValue
                 ) 
                 
-                payable {
-                p1 = _p1;
-                p2 = _p2;
-                dueDate = _dueDate;
-                bettingAmount = _bettingAmount;
-                asset = _asset;
-                p1predictedValue = _p1predictedValue;
-                p2predictedValue = _p2predictedValue;
-                betAddress = address(this);
+        payable      
+    {
+        p1 = _p1;
+        p2 = _p2;
+        //dueDate = _dueDate;
+        numberOfTimeUnits = _numberOfTimeUnits;
+        timeUnits = _timeUnits;
+        bettingAmount = _bettingAmount;
+        asset = _asset;
+        p1predictedValue = _p1predictedValue;
+        p2predictedValue = _p2predictedValue;
+        betAddress = address(this);
+
+        if (timeUnits == 1){ //minutes
+            dueDate = block.timestamp + (numberOfTimeUnits * 1 minutes);  
+        } else if (timeUnits == 2){ //hours 
+            dueDate = block.timestamp + (numberOfTimeUnits * 1 hours);    
+        } else if (timeUnits == 3){//days
+            dueDate = block.timestamp + (numberOfTimeUnits * 1 days);    
+        }else if (timeUnits == 4){//weeks
+            dueDate = block.timestamp + (numberOfTimeUnits * 1 weeks);    
+        }else if (timeUnits == 5){//months
+            dueDate = block.timestamp + (numberOfTimeUnits * 4 weeks);    
+        }
     }
-    
-    
-    
     
     /*
     notDeployed: the bet is not deployed by player1
@@ -99,22 +113,25 @@ contract Bet is PriceConsumerV3{
     */
     mapping(uint => address) public chainlinkAddress; 
     
+    
+    
+    
+    
+    
+    
     /*
-    the function receivingBettingAmount should receive the bettingAmount of ONLY both players
-    it should check the bettingAmount of both players are equal
-    I guess that when the contract is first initialized it just accept the betting amount of p1.
-    Once it is deloyed only p2 can call this function. We can do that with a modifier
-    Only the players should be able to deposit
+    the function receivingBettingAmount should receive the bettingAmount of Player 2
+    As a remainder the value bettingAmount and the ETH player 1 ib betting is set in the constructor of the bet
+    The bettingAmount of both players are equal
     */
     function receiveBettingAmount () public payable {
-        //require(bettingAmount == msg.value);
-        
+        require(bettingAmount == msg.value);
         //after player2 deposits we should check bettingAmount == 2*_bettingAmount
     }
     
     
     /*
-    After the dueDate period this function will be called automatically by the Keepers network of chainlink hapefuly
+    After the dueDate period this function will be called only by Player1 or Player2
     The player closer to the value that retrieves chainlink at dueDate will get the bettingAmount * 2
     If there is a tie the players will get their money back minus fees
     */
