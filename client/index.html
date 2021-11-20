@@ -4,44 +4,80 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
   <title>BetsFriends</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   
-
 </head>
 <body>
-  <h1>This is a Dapp</h1>
-  <p>
-    Hello, World!
-  </p>
-  <div id="mm-detected"></div>
-
-  <!-- Connect to MetaMask Wallet -->
-
-  <button id="mm-connect">Connect to MetaMask</button>
-
-  <!-- Display current address -->
-
-  <div id="mm-current-account"></div>
-
-  <!-- Provide an input to change the contract text value -->
+  <header>
+    <h1>BetsFriends</h1>
+    <button id="mm-connect">Connect Metamask</button>
+    <div id="mm-detected"></div>
+  </header>
+  
   <div>
-  <input id="ss-input-box" type="number" placeholder="Provide input"/>  
-</div>
-  <button id="ss-input-button">Submit Value</button>
-
-  <!-- Read input from contract -->
-  <div>
-    <button id="ss-get-value">Get Simple Storage value</button>
+    <p> In web 2.0 you were able chat with your friends around the world. In web 3.0 you will be able to do anything 
+      money-related with your friends around the world. Bets are money related, so I made this little dapp with love. 
+    </p>
   </div>
-  <div id="ss-display-value">Current Simple Storage Value: </div>
 
+  <div>
+    <div id="mm-current-account"></div>
+    <button id="button-modal-1">Create a bet</button>
+    <button id="button-modal-2">Enter an existing bet</button>
+    <button>Check a bet</button>
+  </div>
+
+  
+
+  <!-- Modal for creating a bet -->
+  <div id="modal1" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Some text in the Modal..</p>
+      <p id="p1-address">Player 1 address: </p> 
+      <p>Player 2 address:</p> <input type="text">
+      <br>
+      <p>Due Time: </p>
+      <select id="number-of-time-units">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <select id="time-units">
+        <option value="minutes">minutes</option>
+        <option value="hours">hours</option>
+        <option value="days">days</option>
+        <option value="weeks">weeks</option>
+        <option value="months">months</option>
+      </select>
+
+      <p>Betting Amount: </p> <input type="number">
+      <p>Asset: </p> 
+      <select id="asset">
+        <option value="eth">ETH</option>
+      </select>
+
+      <p>Player 1 predicted value:</p> <input type="number">
+      <p>Player 2 predicted value:</p> <input type="number" disabled>
+      <br>
+      <button id="deploy-bet">Deploy Bet</button>
+    </div>
+
+  </div>
+  
+  <footer>
+    <p>Some considerations:</p>
+    <p>There are no fees for the "house", since when you bet with friends there is no "house".
+       The only fees are for use the network.</p>
+    <p>Please make any suggestions.</p>
+  </footer>
 </body>
 
-
-
-<!-- Had trouble and had to move the script down! -->
 <script src="dapp.js"></script>
-
-
 </html>

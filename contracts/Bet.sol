@@ -124,7 +124,7 @@ contract Bet is PriceConsumerV3{
     As a remainder the value bettingAmount and the ETH player 1 ib betting is set in the constructor of the bet
     The bettingAmount of both players are equal
     */
-    function receiveBettingAmount () public payable {
+    function receiveP2BettingAmount () public payable {
         require(bettingAmount == msg.value);
         //after player2 deposits we should check bettingAmount == 2*_bettingAmount
     }
