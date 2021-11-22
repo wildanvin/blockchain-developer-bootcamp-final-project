@@ -15,8 +15,9 @@ contract BetFactory{
                 uint _timeUnits,
                 uint _bettingAmount,
                 uint _asset,
-                uint _p1predictedValue,
-                uint _p2predictedValue) 
+                uint _p1predictedValue
+                //uint _p2predictedValue
+                ) 
         public 
         payable 
         
@@ -24,13 +25,12 @@ contract BetFactory{
         Bet bet = (new Bet){value: msg.value}(
         _p1,
         _p2,
-        //_dueDate,
         _numberOfTimeUnits,
         _timeUnits,
         _bettingAmount,
         _asset,
-        _p1predictedValue,
-        _p2predictedValue
+        _p1predictedValue
+        //_p2predictedValue
         );
         
         bets.push(bet);

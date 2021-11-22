@@ -25,21 +25,20 @@
   <div>
     <div id="mm-current-account"></div>
     <button id="button-modal-1">Create a bet</button>
-    <button id="button-modal-2">Enter an existing bet</button>
-    <button>Check a bet</button>
+    <button id="button-modal-2">Enter in a bet</button>
+    <button id="button-modal-3">Check a bet</button>
   </div>
 
   
 
-  <!-- Modal for creating a bet -->
+  <!--************************************************ Modal for creating a bet *******************-->
   <div id="modal1" class="modal">
 
     <!-- Modal content -->
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Some text in the Modal..</p>
+      <span id="span-1"class="close">&times;</span>
       <p id="p1-address">Player 1 address: </p> 
-      <p>Player 2 address:</p> <input type="text">
+      <p>Player 2 address:</p> <input id="p2-address" type="text">
       <br>
       <p>Due Time: </p>
       <select id="number-of-time-units">
@@ -50,23 +49,49 @@
         <option value="5">5</option>
       </select>
       <select id="time-units">
-        <option value="minutes">minutes</option>
-        <option value="hours">hours</option>
-        <option value="days">days</option>
-        <option value="weeks">weeks</option>
-        <option value="months">months</option>
+        <option value="1">minutes</option>
+        <option value="2">hours</option>
+        <option value="3">days</option>
+        <option value="4">weeks</option>
+        <option value="5">months</option>
       </select>
 
-      <p>Betting Amount: </p> <input type="number">
+      <p>Betting Amount (in ETH)): </p> <input id="betting-amount" type="number">
       <p>Asset: </p> 
       <select id="asset">
-        <option value="eth">ETH</option>
+        <option value="1">ETH</option>
       </select>
 
-      <p>Player 1 predicted value:</p> <input type="number">
+      <p>Player 1 predicted value:</p> <input id="p1-predicted-value" type="number">
       <p>Player 2 predicted value:</p> <input type="number" disabled>
       <br>
       <button id="deploy-bet">Deploy Bet</button>
+    </div>
+
+  </div>
+
+  <!-- ******************************************* Modal for enter in a bet ************************************* -->
+  <div id="modal2" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span id="span-2"class="close">&times;</span>
+      <p>There are currently 234 bets</p>
+      <p>Enter Bet Number:</p> <input id="m2-bet-number" type="number">
+      <button id="m2-see-bet">See</button>
+      <p>Player 1 address: </p> <input id="m2-p1" type="text" disabled>
+      <p>Player 2 address:</p> <input id="m2-p2" type="text" disabled>
+      <p>Due Time: </p> <input id="m2-due-time" type="text" disabled>
+      <p>Betting Amount (in ETH):</p> <input id="m2-betting-amount" type="number" disabled>
+      <p>Asset price you are betting on: ETH</p>
+      <p>Player 1 has deposited (in ETH): </p> <input type="text" id="m2-balance" disabled>
+      <p>Player 1 predicted value:</p> <input id="m2-p1-predicted" type="number" disabled>
+      <p>Player 2 predicted value:</p> <input id="m2-p2-predicted" type="number">
+      <p>Bet Address on-chain: </p> <input type="text" id="bet-address">
+      <p>State: </p>
+      <p>The winner is: </p>
+
+      <button id="enter-bet">Enter Bet</button>
     </div>
 
   </div>

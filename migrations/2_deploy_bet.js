@@ -8,6 +8,6 @@ module.exports = async function (deployer, network, accounts) {
     5, // months
     10000000,
     1,
-    10000500,
-    100000000);
+    10000500 //p1PredictedValue
+    );
 };

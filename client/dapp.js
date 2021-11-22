@@ -1,5 +1,4 @@
-// Using the 'load' event listener for Javascript to
-// check if window.ethereum is available
+//Check for Metamask
 
 window.addEventListener('load', function() {
   
@@ -27,13 +26,12 @@ window.addEventListener('load', function() {
 })
 
 
-var web3 = new Web3(window.ethereum)
 
-// Grabbing the button object,  
+//Connect to network
+var web3 = new Web3(window.ethereum)
 
 const mmEnable = document.getElementById('mm-connect');
 
- 
 mmEnable.onclick = async () => {
   await ethereum.request({ method: 'eth_requestAccounts'})
   // grab mm-current-account
@@ -84,6 +82,119 @@ ssGetValue.onclick = async () => {
 
 */
 
+// web 3 Interacions with the contract:
+
+let deployBet = document.getElementById('deploy-bet');
+
+deployBet.onclick = async () => {
+  await ethereum.request({ method: 'eth_requestAccounts'})
+  let p1 = ethereum.selectedAddress
+  let p2 = document.getElementById('p2-address').value;
+  let numberOfTimeUnits = document.getElementById('number-of-time-units').value;
+  let timeUnits = document.getElementById('time-units').value;
+  let asset = document.getElementById('asset').value;
+  let bettingAmount = document.getElementById('betting-amount').value;
+  let p1predictedValue = document.getElementById('p1-predicted-value').value;
+
+  var web3 = new Web3(window.ethereum);
+  
+  const betFactory = new web3.eth.Contract(betFactoryABI, betFactoryAddress);
+  betFactory.setProvider(window.ethereum);
+
+  await betFactory.methods.createAndSendEther(
+    p1, 
+    p2,
+    numberOfTimeUnits,
+    timeUnits,
+    bettingAmount,
+    asset,
+    p1predictedValue
+    ).send({from: ethereum.selectedAddress, value:web3.utils.toWei(bettingAmount, "ether")});
+
+}
+
+
+let seeBet = document.getElementById('m2-see-bet');
+
+seeBet.onclick = async () => {
+  
+  var web3 = new Web3(window.ethereum);
+
+  const betFactory = new web3.eth.Contract(betFactoryABI, betFactoryAddress);
+  betFactory.setProvider(window.ethereum);
+
+  let betNumber = document.getElementById('m2-bet-number').value;
+
+  let betRequested = await betFactory.methods.getBet(betNumber).call();
+
+  let p1 = betRequested[0];
+  let p2 = betRequested[1];
+  let dueDate = betRequested[2];
+  let bettingAmount = betRequested[3];
+  console.log(bettingAmount)
+  //let asset = betRequested[4];
+  let p1predictedValue = betRequested[5];
+  let p2predictedValue = betRequested[6];
+  let betBalance = betRequested[7];
+  let betRequestedAddress = betRequested[8];
+
+  
+
+  document.getElementById('m2-p1').value = p1;
+  document.getElementById('m2-p2').value = p2;
+  document.getElementById('m2-due-time').value = dueDate;
+  document.getElementById('m2-betting-amount').value = bettingAmount;
+  document.getElementById('m2-balance').value = web3.utils.fromWei(betBalance, 'ether');
+  document.getElementById('m2-p1-predicted').value = p1predictedValue;
+  document.getElementById('m2-p2-predicted').value = p2predictedValue;
+  document.getElementById('bet-address').value = betRequestedAddress;
+  
+}
+
+let enterBet = document.getElementById('enter-bet');
+
+enterBet.onclick = async () => {
+  let bettingAmount = document.getElementById('m2-betting-amount').value;
+  let betAddress = document.getElementById('bet-address').value;
+  let p2predictedValue = document.getElementById('m2-p2-predicted').value;
+  console.log(bettingAmount, betAddress, p2predictedValue)
+  
+  var web3 = new Web3(window.ethereum);
+  
+  const betInstance = new web3.eth.Contract(betABI, betAddress);
+  betInstance.setProvider(window.ethereum);
+
+  await betInstance.methods.p2UpdatePredictedValueAndDeposit(
+    p2predictedValue).send({from: ethereum.selectedAddress, value:web3.utils.toWei(bettingAmount, "ether")});
+
+}
+
+/*
+const ssGetValue = document.getElementById('ss-get-value')
+
+ssGetValue.onclick = async () => {
+
+  var web3 = new Web3(window.ethereum)
+
+  const simpleStorage = new web3.eth.Contract(ssABI, ssAddress)
+  simpleStorage.setProvider(window.ethereum)
+
+  var value = await simpleStorage.methods.retrieve().call()
+
+  console.log(value)
+
+  const ssDisplayValue = document.getElementById('ss-display-value')
+
+  ssDisplayValue.innerHTML = 'Current Simple Storage Value: ' + value
+
+}
+
+
+*/
+
+
+
+//***************************************MODAL 1*********************************** */
 // Get the modal
 var modal1 = document.getElementById("modal1");
 
@@ -91,7 +202,7 @@ var modal1 = document.getElementById("modal1");
 var btn1 = document.getElementById("button-modal-1");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span1 = document.getElementById("span-1");
 
 // When the user clicks on the button, open the modal
 btn1.onclick = function() {
@@ -102,7 +213,7 @@ btn1.onclick = function() {
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span1.onclick = function() {
   modal1.style.display = "none";
 }
 
@@ -110,13 +221,41 @@ span.onclick = function() {
 window.onclick = function(event) {
   if (event.target == modal1) {
     modal1.style.display = "none";
+    modal2.style.display = "none";
+  }
+}
+
+//***************************************MODAL 2*********************************** */
+// Get the modal
+var modal2 = document.getElementById("modal2");
+
+// Get the button that opens the modal
+var btn2 = document.getElementById("button-modal-2");
+
+// Get the <span> element that closes the modal
+var span2 = document.getElementById("span-2");
+
+// When the user clicks on the button, open the modal
+btn2.onclick = function() {
+  modal2.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal2) {
+    modal1.style.display = "none";
+    modal2.style.display = "none";
   }
 }
 
 
-
 // contract address:
-const betFactoryAddress = '0x295eb38E3660d440B1dd54822644E545635f44E1'
+const betFactoryAddress = '0x1b10f7A4d1cEE0d9238F7F4b7E009B110952fbE3'
 
 const betABI = [
   {
@@ -154,11 +293,6 @@ const betABI = [
       {
         "internalType": "uint256",
         "name": "_p1predictedValue",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_p2predictedValue",
         "type": "uint256"
       }
     ],
@@ -341,8 +475,19 @@ const betABI = [
     "constant": true
   },
   {
-    "inputs": [],
-    "name": "receiveBettingAmount",
+    "stateMutability": "payable",
+    "type": "receive",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_p2predictedValue",
+        "type": "uint256"
+      }
+    ],
+    "name": "p2UpdatePredictedValueAndDeposit",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function",
@@ -455,11 +600,6 @@ const betFactoryABI =
       {
         "internalType": "uint256",
         "name": "_p1predictedValue",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_p2predictedValue",
         "type": "uint256"
       }
     ],

@@ -50,26 +50,24 @@ contract Bet is PriceConsumerV3{
 
     constructor (address payable _p1, 
                 address payable _p2,
-                //uint _dueDate,
                 uint _numberOfTimeUnits,
                 uint _timeUnits,
                 uint _bettingAmount,
                 uint _asset,
-                uint _p1predictedValue,
-                uint _p2predictedValue
+                uint _p1predictedValue
+                //uint _p2predictedValue
                 ) 
                 
         payable      
     {
         p1 = _p1;
         p2 = _p2;
-        //dueDate = _dueDate;
         numberOfTimeUnits = _numberOfTimeUnits;
         timeUnits = _timeUnits;
         bettingAmount = _bettingAmount;
         asset = _asset;
         p1predictedValue = _p1predictedValue;
-        p2predictedValue = _p2predictedValue;
+        p2predictedValue = 0;
         betAddress = address(this);
 
         if (timeUnits == 1){ //minutes
@@ -93,7 +91,7 @@ contract Bet is PriceConsumerV3{
     finished: the dueDate has passed there must be a winner
     
     */
-    enum BetState { notDeployed, waitingP2, agreed, finished }
+    enum BetState {waitingP2, agreed, finished }
     BetState public betState; 
     
     
@@ -103,8 +101,6 @@ contract Bet is PriceConsumerV3{
     enum WinnerIs {notKnownYet, player1, player2, draw}
     WinnerIs public winnerIs;
     
-    
-    
     /*
     for this mapping the front end will have a list where to display the assets
     1 => bitcoin address oracle in chainlink
@@ -113,22 +109,16 @@ contract Bet is PriceConsumerV3{
     */
     mapping(uint => address) public chainlinkAddress; 
     
-    
-    
-    
-    
-    
-    
     /*
     the function receivingBettingAmount should receive the bettingAmount of Player 2
     As a remainder the value bettingAmount and the ETH player 1 ib betting is set in the constructor of the bet
     The bettingAmount of both players are equal
     */
-    function receiveP2BettingAmount () public payable {
-        require(bettingAmount == msg.value);
+    function p2UpdatePredictedValueAndDeposit (uint _p2predictedValue) public payable {
+        require(msg.value >= bettingAmount, "Should deposit exact betting amount");
+        p2predictedValue = _p2predictedValue;
         //after player2 deposits we should check bettingAmount == 2*_bettingAmount
     }
-    
     
     /*
     After the dueDate period this function will be called only by Player1 or Player2
@@ -177,4 +167,6 @@ contract Bet is PriceConsumerV3{
         }
         
     }
+
+    receive() external payable {}
 }
