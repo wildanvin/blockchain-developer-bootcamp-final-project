@@ -114,7 +114,7 @@ deployBet.onclick = async () => {
 }
 
 
-let seeBet = document.getElementById('m2-see-bet');
+let seeBet = document.getElementById("m2-see-bet");
 
 seeBet.onclick = async () => {
   
@@ -123,41 +123,40 @@ seeBet.onclick = async () => {
   const betFactory = new web3.eth.Contract(betFactoryABI, betFactoryAddress);
   betFactory.setProvider(window.ethereum);
 
-  let betNumber = document.getElementById('m2-bet-number').value;
-
+  let betNumber = document.getElementById("m2-bet-number").value;
+  
   let betRequested = await betFactory.methods.getBet(betNumber).call();
 
   let p1 = betRequested[0];
   let p2 = betRequested[1];
   let dueDate = betRequested[2];
   let bettingAmount = betRequested[3];
-  console.log(bettingAmount)
   //let asset = betRequested[4];
   let p1predictedValue = betRequested[5];
   let p2predictedValue = betRequested[6];
   let betBalance = betRequested[7];
   let betRequestedAddress = betRequested[8];
 
+  document.getElementById("m2-p1").value = p1;
+  document.getElementById("m2-p2").value = p2;
+  document.getElementById("m2-due-time").value = dueDate;
+  document.getElementById("m2-betting-amount").value = bettingAmount;
+  document.getElementById("m2-balance").value = web3.utils.fromWei(
+    betBalance,
+    "ether"
+  );
+  document.getElementById("m2-p1-predicted").value = p1predictedValue;
+  document.getElementById("m2-p2-predicted").value = p2predictedValue;
+  document.getElementById("m2-bet-address").value = betRequestedAddress;
   
-
-  document.getElementById('m2-p1').value = p1;
-  document.getElementById('m2-p2').value = p2;
-  document.getElementById('m2-due-time').value = dueDate;
-  document.getElementById('m2-betting-amount').value = bettingAmount;
-  document.getElementById('m2-balance').value = web3.utils.fromWei(betBalance, 'ether');
-  document.getElementById('m2-p1-predicted').value = p1predictedValue;
-  document.getElementById('m2-p2-predicted').value = p2predictedValue;
-  document.getElementById('bet-address').value = betRequestedAddress;
-  
-}
+};
 
 let enterBet = document.getElementById('enter-bet');
 
 enterBet.onclick = async () => {
   let bettingAmount = document.getElementById('m2-betting-amount').value;
-  let betAddress = document.getElementById('bet-address').value;
+  let betAddress = document.getElementById('m2-bet-address').value;
   let p2predictedValue = document.getElementById('m2-p2-predicted').value;
-  console.log(bettingAmount, betAddress, p2predictedValue)
   
   var web3 = new Web3(window.ethereum);
   
@@ -166,6 +165,64 @@ enterBet.onclick = async () => {
 
   await betInstance.methods.p2UpdatePredictedValueAndDeposit(
     p2predictedValue).send({from: ethereum.selectedAddress, value:web3.utils.toWei(bettingAmount, "ether")});
+
+}
+
+let checkBet = document.getElementById("m3-check-bet");
+
+checkBet.onclick = async () => {
+  var web3 = new Web3(window.ethereum);
+
+  const betFactory = new web3.eth.Contract(betFactoryABI, betFactoryAddress);
+  betFactory.setProvider(window.ethereum);
+
+  let betNumber = document.getElementById("m3-bet-number").value;
+
+  let betRequested = await betFactory.methods.getBet(betNumber).call();
+
+  let p1 = betRequested[0];
+  let p2 = betRequested[1];
+  let dueDate = betRequested[2];
+  //et bettingAmount = betRequested[3];
+  //let asset = betRequested[4];
+  let p1predictedValue = betRequested[5];
+  let p2predictedValue = betRequested[6];
+  let betBalance = betRequested[7];
+  let betRequestedAddress = betRequested[8];
+
+  document.getElementById("m3-p1").value = p1;
+  document.getElementById("m3-p2").value = p2;
+  document.getElementById("m3-due-time").value = dueDate;
+  //document.getElementById("m3-balance").value = bettingAmount;
+  document.getElementById("m3-balance").value = web3.utils.fromWei(
+    betBalance,
+    "ether"
+  );
+  document.getElementById("m3-p1-predicted").value = p1predictedValue;
+  document.getElementById("m3-p2-predicted").value = p2predictedValue;
+  document.getElementById("m3-bet-address").value = betRequestedAddress;
+};
+
+let checkWinner = document.getElementById('check-winner');
+
+checkWinner.onclick = async () => {
+  let betAddress = document.getElementById('m3-bet-address').value;
+  let p1predictedValue = document.getElementById('m3-p1-predicted').value;
+  let p2predictedValue = document.getElementById('m3-p2-predicted').value;
+  let testChainLink = 6000;
+  
+  var web3 = new Web3(window.ethereum);
+  
+  const betInstance = new web3.eth.Contract(betABI, betAddress);
+  betInstance.setProvider(window.ethereum);
+
+  await betInstance.methods.calculateWinner(
+    p1predictedValue,
+    p2predictedValue,
+    testChainLink
+  ).send({from: ethereum.selectedAddress});
+
+
 
 }
 
@@ -252,6 +309,35 @@ window.onclick = function(event) {
     modal2.style.display = "none";
   }
 }
+
+//***************************************MODAL 3*********************************** */
+// Get the modal
+var modal3 = document.getElementById("modal3");
+
+// Get the button that opens the modal
+var btn3 = document.getElementById("button-modal-3");
+
+// Get the <span> element that closes the modal
+var span3 = document.getElementById("span-3");
+
+// When the user clicks on the button, open the modal
+btn3.onclick = function() {
+  modal3.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span3.onclick = function() {
+  modal3.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal2) {
+    modal3.style.display = "none";
+  }
+}
+
+
 
 
 // contract address:

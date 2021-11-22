@@ -84,7 +84,6 @@ contract Bet is PriceConsumerV3{
     }
     
     /*
-    notDeployed: the bet is not deployed by player1
     waitingP2: the bet is waiting for player2 to match the bettingAmount of player1
                 if player2 doesnt deposit player1 should receive back his bettingAmount
     agreed: player1 and player2 have deposited the bettingAmount

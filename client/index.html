@@ -87,11 +87,38 @@
       <p>Player 1 has deposited (in ETH): </p> <input type="text" id="m2-balance" disabled>
       <p>Player 1 predicted value:</p> <input id="m2-p1-predicted" type="number" disabled>
       <p>Player 2 predicted value:</p> <input id="m2-p2-predicted" type="number">
-      <p>Bet Address on-chain: </p> <input type="text" id="bet-address">
+      <p>Bet Address on-chain: </p> <input type="text" id="m2-bet-address">
       <p>State: </p>
       <p>The winner is: </p>
 
       <button id="enter-bet">Enter Bet</button>
+    </div>
+
+  </div>
+
+
+  <!-- ******************************************* Modal for checking a bet ************************************* -->
+  <div id="modal3" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span id="span-3"class="close">&times;</span>
+      <p>There are currently 234 bets</p>
+      <p>Enter Bet Number:</p> <input id="m3-bet-number" type="number">
+      <button id="m3-check-bet">Check</button>
+      <p>Player 1 address: </p> <input id="m3-p1" type="text" disabled>
+      <p>Player 2 address:</p> <input id="m3-p2" type="text" disabled>
+      <p>Due Time: </p> <input id="m3-due-time" type="text" disabled>
+      
+      <p>Asset price you are betting on: ETH</p>
+      <p>The winner will receive (in ETH): </p> <input type="text" id="m3-balance" disabled>
+      <p>Player 1 predicted value:</p> <input id="m3-p1-predicted" type="number" disabled>
+      <p>Player 2 predicted value:</p> <input id="m3-p2-predicted" type="number" disabled>
+      <p>Bet Address on-chain: </p> <input type="text" id="m3-bet-address" disabled>
+      <p>State: </p>
+      <p>The winner is: </p>
+
+      <button id="check-winner">Check for winner</button>
     </div>
 
   </div>
