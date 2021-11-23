@@ -83,6 +83,8 @@ contract Bet is PriceConsumerV3{
         }
     }
     
+    event Scores (uint price, uint score1, uint score2);
+
     /*
     waitingP2: the bet is waiting for player2 to match the bettingAmount of player1
                 if player2 doesnt deposit player1 should receive back his bettingAmount
@@ -124,10 +126,14 @@ contract Bet is PriceConsumerV3{
     The player closer to the value that retrieves chainlink at dueDate will get the bettingAmount * 2
     If there is a tie the players will get their money back minus fees
     */
-    function calculateWinner (uint _p1, uint _p2, uint _testChainlinkValue ) public {
-        uint priceAtDueDate = _testChainlinkValue; // this is the price provided by chainlink
+    
+    function calculateWinner (uint _p1, uint _p2 /*,uint _testChainlinkValue*/) public {
+        //uint priceAtDueDate = _testChainlinkValue; // this is the price provided by chainlink
+        uint priceAtDueDate = uint(getLatestPrice());
         uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
         uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
+        emit Scores(priceAtDueDate, p1Score, p2Score);
+
         if (p1Score < p2Score){
             // The winner is p1!
             betState = BetState.finished;
@@ -154,6 +160,44 @@ contract Bet is PriceConsumerV3{
         }
     }
     
+
+    /*
+     function calculateWinner () public view returns (int price) {
+        //uint priceAtDueDate = _testChainlinkValue; // this is the price provided by chainlink
+        int price = getLatestPrice();
+        return price;
+        //uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
+        //uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
+        
+        if (p1Score < p2Score){
+            // The winner is p1!
+            betState = BetState.finished;
+            winnerIs = WinnerIs.player1;
+            uint amount = address(this).balance;
+            (bool success, ) = p1.call{value: amount}("");
+            require(success, "Failed to send Ether");
+        } else if (p2Score < p1Score){
+            // The winner is p2!
+            betState = BetState.finished;
+            winnerIs = WinnerIs.player2;
+            uint amount = address(this).balance;
+            (bool success, ) = p2.call{value: amount}("");
+            require(success, "Failed to send Ether");
+        } else if (p1Score == p2Score){
+            // It is a draw!
+            betState = BetState.finished;
+            winnerIs = WinnerIs.draw;
+            uint amount = address(this).balance;
+            (bool success1, ) = p1.call{value: amount/2}("");
+            require(success1, "Failed to send Ether");
+            (bool success2, ) = p2.call{value: amount/2}("");
+            require(success2, "Failed to send Ether");
+        }
+        
+        
+        }
+    */    
+
 
     /*
     function helper to get a positive value in a substraction. 

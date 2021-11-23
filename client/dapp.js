@@ -93,14 +93,16 @@ deployBet.onclick = async () => {
   let numberOfTimeUnits = document.getElementById('number-of-time-units').value;
   let timeUnits = document.getElementById('time-units').value;
   let asset = document.getElementById('asset').value;
-  let bettingAmount = document.getElementById('betting-amount').value;
+
+  let bettingAmount = (document.getElementById('betting-amount').value * 10e17).toString();
+  
   let p1predictedValue = document.getElementById('p1-predicted-value').value;
 
   var web3 = new Web3(window.ethereum);
   
   const betFactory = new web3.eth.Contract(betFactoryABI, betFactoryAddress);
   betFactory.setProvider(window.ethereum);
-
+  
   await betFactory.methods.createAndSendEther(
     p1, 
     p2,
@@ -109,8 +111,10 @@ deployBet.onclick = async () => {
     bettingAmount,
     asset,
     p1predictedValue
-    ).send({from: ethereum.selectedAddress, value:web3.utils.toWei(bettingAmount, "ether")});
-
+    ).send({from: ethereum.selectedAddress, 
+      value:web3.utils.toBN(bettingAmount)
+    });
+    
 }
 
 
@@ -164,7 +168,11 @@ enterBet.onclick = async () => {
   betInstance.setProvider(window.ethereum);
 
   await betInstance.methods.p2UpdatePredictedValueAndDeposit(
-    p2predictedValue).send({from: ethereum.selectedAddress, value:web3.utils.toWei(bettingAmount, "ether")});
+    p2predictedValue).send({
+      from: ethereum.selectedAddress, 
+      //value:web3.utils.toWei(bettingAmount, "ether")
+      value:bettingAmount
+    });
 
 }
 
@@ -207,22 +215,27 @@ let checkWinner = document.getElementById('check-winner');
 
 checkWinner.onclick = async () => {
   let betAddress = document.getElementById('m3-bet-address').value;
-  let p1predictedValue = document.getElementById('m3-p1-predicted').value;
-  let p2predictedValue = document.getElementById('m3-p2-predicted').value;
-  let testChainLink = 6000;
+  let p1predictedValue = document.getElementById('m3-p1-predicted').value * 10e7;
+  let p2predictedValue = document.getElementById('m3-p2-predicted').value * 10e7;
+  //let testChainLink = 6000;
+  //console.log(p1predictedValue, p2predictedValue) 
   
   var web3 = new Web3(window.ethereum);
   
   const betInstance = new web3.eth.Contract(betABI, betAddress);
   betInstance.setProvider(window.ethereum);
-
+  
   await betInstance.methods.calculateWinner(
     p1predictedValue,
     p2predictedValue,
-    testChainLink
+    //testChainLink
   ).send({from: ethereum.selectedAddress});
+    
 
-
+  /*
+  let price = await betInstance.methods.calculateWinner().call();
+  console.log(price);
+   */ 
 
 }
 
@@ -341,7 +354,7 @@ window.onclick = function(event) {
 
 
 // contract address:
-const betFactoryAddress = '0x1b10f7A4d1cEE0d9238F7F4b7E009B110952fbE3'
+const betFactoryAddress = '0x1FC1935d5db12D02156a9F3Ea60f9236502bCE35'
 
 const betABI = [
   {
@@ -383,8 +396,32 @@ const betABI = [
       }
     ],
     "stateMutability": "payable",
-    "type": "constructor",
-    "payable": true
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "score1",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "score2",
+        "type": "uint256"
+      }
+    ],
+    "name": "Scores",
+    "type": "event"
   },
   {
     "inputs": [],
@@ -397,8 +434,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -411,8 +447,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -425,8 +460,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -439,8 +473,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -459,8 +492,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -473,8 +505,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -487,8 +518,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -501,8 +531,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -515,8 +544,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -529,8 +557,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -543,8 +570,7 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -557,13 +583,11 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "stateMutability": "payable",
-    "type": "receive",
-    "payable": true
+    "type": "receive"
   },
   {
     "inputs": [
@@ -576,8 +600,7 @@ const betABI = [
     "name": "p2UpdatePredictedValueAndDeposit",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -589,11 +612,6 @@ const betABI = [
       {
         "internalType": "uint256",
         "name": "_p2",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_testChainlinkValue",
         "type": "uint256"
       }
     ],
@@ -624,8 +642,7 @@ const betABI = [
       }
     ],
     "stateMutability": "pure",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ];
 
