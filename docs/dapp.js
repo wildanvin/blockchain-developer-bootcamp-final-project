@@ -354,7 +354,7 @@ window.onclick = function(event) {
 
 
 // contract address:
-const betFactoryAddress = '0x1FC1935d5db12D02156a9F3Ea60f9236502bCE35'
+const betFactoryAddress = '0xe70982C0be9de5AD0b2E693E7873d9bdcb83818F'
 
 const betABI = [
   {
