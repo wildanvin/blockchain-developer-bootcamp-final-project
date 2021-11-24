@@ -3,61 +3,56 @@ pragma solidity ^0.8.3;
 
 import "./PriceConsumerV3.sol";
 
+/// @title The Bet contract
+/// @author Wilman D. Vinueza
+/// @notice This is the template contract that will hold the funds and the data of each bet.
+/// @dev This is the template contract the user will create every time it interacts with the BetFactory.sol contract
+/// @dev This contract inherits from the PriceConsumerV3.sol in order to access the price of ETH. 
 contract Bet is PriceConsumerV3{
     
-    address payable public p1; //player 1
-    address payable public p2; //player 2
+    /// @notice Address of player 1
+    address payable public p1;
     
+    /// @notice Address of player 2
+    address payable public p2; 
+    
+    /// @notice The address of "this" bet
     address public betAddress;
     
-    /*
-    this will be the date that the generated contract will check who wins
-    hopefully we can use chainlink Keepers to do it. That would be awesome.
-    We will use the blockchain time because i think it is enough.
-    Not entirely sure on how to implemented. Maybe with some cooldown periods
-    */
-    uint public dueDate;
-    
-    /*
-    This is the money you are betting.
-    There should be a function that gets this amount of money from both players.
-    The function only accepts ether
-    */
+    /// @notice The amount of money (in ETH) each player is betting
     uint public bettingAmount;
     
-    /*
-    For now, we can only bet on the price of ETH
-    number 1 for ETH
-    */
+    /// @notice The asset in wich you are betting. 
+    /// @dev This value will be used for future updates because right now you can only bet about the price of ETH
     uint public asset;
     
-    /*
-    Predicted value of player1. 
-    It only should be changed by player1 address.
-    After deployed it can not be changed by anyone. NOT EVEN PLAYER1
-    */
+    /// @notice The predicted value of player 1
     uint public p1predictedValue;
     
-    /*
-    Similar to p1predictedValue. This is the predicted value of player2
-    It only should be changed by player2 address after player1 deploys the contract
-    After entering the p2predictedValued and Accepting the value cant be changed by anyone, not even player2
-    */
+    /// @notice The predicted value of player 2
     uint public p2predictedValue;
-    
-    uint numberOfTimeUnits;
-    uint timeUnits;
 
-    constructor (address payable _p1, 
+    /// @notice In "5 hours", numberOfTimeUnits would be "5"
+    uint public numberOfTimeUnits;
+
+    /// @notice In "5 hours", timeUnits would be "hours"
+    /// @notice timeUnits can be minutes, hours, days, weeks or months
+    uint public timeUnits;
+
+    /// @notice This is the time in the future at wich the players will see who won
+    /// @dev dueDate is calculated from the numberOfTimeUnits and timeUnits variables
+    uint public dueDate;
+
+    /// @dev At the end of this constructor there are "if" statements to calculate de dueDate based on the user input 
+    constructor (
+                address payable _p1, 
                 address payable _p2,
                 uint _numberOfTimeUnits,
                 uint _timeUnits,
                 uint _bettingAmount,
                 uint _asset,
                 uint _p1predictedValue
-                //uint _p2predictedValue
-                ) 
-                
+                )        
         payable      
     {
         p1 = _p1;
@@ -70,86 +65,65 @@ contract Bet is PriceConsumerV3{
         p2predictedValue = 0;
         betAddress = address(this);
 
-        if (timeUnits == 1){ //minutes
+        if (timeUnits == 1){ 
             dueDate = block.timestamp + (numberOfTimeUnits * 1 minutes);  
-        } else if (timeUnits == 2){ //hours 
+        } else if (timeUnits == 2){ 
             dueDate = block.timestamp + (numberOfTimeUnits * 1 hours);    
-        } else if (timeUnits == 3){//days
+        } else if (timeUnits == 3){
             dueDate = block.timestamp + (numberOfTimeUnits * 1 days);    
-        }else if (timeUnits == 4){//weeks
+        }else if (timeUnits == 4){
             dueDate = block.timestamp + (numberOfTimeUnits * 1 weeks);    
-        }else if (timeUnits == 5){//months
+        }else if (timeUnits == 5){
             dueDate = block.timestamp + (numberOfTimeUnits * 4 weeks);    
         }
     }
     
-    event Scores (uint price, uint score1, uint score2);
-
-    /*
-    waitingP2: the bet is waiting for player2 to match the bettingAmount of player1
-                if player2 doesnt deposit player1 should receive back his bettingAmount
-    agreed: player1 and player2 have deposited the bettingAmount
-    finished: the dueDate has passed there must be a winner
-    
-    */
     enum BetState {waitingP2, agreed, finished }
     BetState public betState; 
     
-    
-    /*
-    In this enum we will update who is the winner
-    */
     enum WinnerIs {notKnownYet, player1, player2, draw}
-    WinnerIs public winnerIs;
+    WinnerIs public winnerIs; 
     
-    /*
-    for this mapping the front end will have a list where to display the assets
-    1 => bitcoin address oracle in chainlink
-    2 => ether address oracle in chainlink
-    3 => bnb address oracle in chainlink
-    */
-    mapping(uint => address) public chainlinkAddress; 
-    
-    /*
-    the function receivingBettingAmount should receive the bettingAmount of Player 2
-    As a remainder the value bettingAmount and the ETH player 1 ib betting is set in the constructor of the bet
-    The bettingAmount of both players are equal
-    */
+    /// @notice Emitted once the calculateWinner function is executed
+    /// @param price The price provided by Chainlink
+    /// @param score1 The score of player 1
+    /// @param score2 The score of player 2
+    event Scores (uint price, uint score1, uint score2);
+
+    /// @notice Through this function player 2 sets his predicted value and deposits his bettingAmount
+    /// @param _p2predictedValue The predicted value of player 2
     function p2UpdatePredictedValueAndDeposit (uint _p2predictedValue) public payable {
-        require(msg.value >= bettingAmount, "Should deposit exact betting amount");
+        require(msg.value >= bettingAmount, "Player 2 should deposit at least the betting amount");
+        // require msg.sender == p2
         p2predictedValue = _p2predictedValue;
-        //after player2 deposits we should check bettingAmount == 2*_bettingAmount
     }
     
-    /*
-    After the dueDate period this function will be called only by Player1 or Player2
-    The player closer to the value that retrieves chainlink at dueDate will get the bettingAmount * 2
-    If there is a tie the players will get their money back minus fees
-    */
-    
-    function calculateWinner (uint _p1, uint _p2 /*,uint _testChainlinkValue*/) public {
-        //uint priceAtDueDate = _testChainlinkValue; // this is the price provided by chainlink
+    /// @notice This is the function used the determine who won
+    /// @dev The score for each player is: price provided by Chainlink minus the predicted value. The one with the lower score wins
+    /// @param _p1 The predicted value of player 1
+    /// @param _p2 The predicted value of player 2
+    function calculateWinner (uint _p1, uint _p2) public {
+        //require(betState == BetState.agreed);
+        //require(msg.sender == p1 || msg.sender == p2)
+        //require(block.timestamp >= dueDate)
         uint priceAtDueDate = uint(getLatestPrice());
         uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
         uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
         emit Scores(priceAtDueDate, p1Score, p2Score);
 
         if (p1Score < p2Score){
-            // The winner is p1!
             betState = BetState.finished;
             winnerIs = WinnerIs.player1;
             uint amount = address(this).balance;
             (bool success, ) = p1.call{value: amount}("");
             require(success, "Failed to send Ether");
         } else if (p2Score < p1Score){
-            // The winner is p2!
             betState = BetState.finished;
             winnerIs = WinnerIs.player2;
             uint amount = address(this).balance;
             (bool success, ) = p2.call{value: amount}("");
             require(success, "Failed to send Ether");
         } else if (p1Score == p2Score){
-            // It is a draw!
             betState = BetState.finished;
             winnerIs = WinnerIs.draw;
             uint amount = address(this).balance;
@@ -162,29 +136,30 @@ contract Bet is PriceConsumerV3{
     
 
     /*
-     function calculateWinner () public view returns (int price) {
-        //uint priceAtDueDate = _testChainlinkValue; // this is the price provided by chainlink
-        int price = getLatestPrice();
-        return price;
-        //uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
-        //uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
+     function calculateWinner (
+        uint _p1, 
+        uint _p2,
+        uint _testChainlinkValue
+        ) 
+        public
+       {
+        uint priceAtDueDate = _testChainlinkValue; 
+        uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
+        uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
         
         if (p1Score < p2Score){
-            // The winner is p1!
             betState = BetState.finished;
             winnerIs = WinnerIs.player1;
             uint amount = address(this).balance;
             (bool success, ) = p1.call{value: amount}("");
             require(success, "Failed to send Ether");
         } else if (p2Score < p1Score){
-            // The winner is p2!
             betState = BetState.finished;
             winnerIs = WinnerIs.player2;
             uint amount = address(this).balance;
             (bool success, ) = p2.call{value: amount}("");
             require(success, "Failed to send Ether");
         } else if (p1Score == p2Score){
-            // It is a draw!
             betState = BetState.finished;
             winnerIs = WinnerIs.draw;
             uint amount = address(this).balance;
@@ -193,15 +168,11 @@ contract Bet is PriceConsumerV3{
             (bool success2, ) = p2.call{value: amount/2}("");
             require(success2, "Failed to send Ether");
         }
-        
-        
-        }
-    */    
+    }
+    */   
 
 
-    /*
-    function helper to get a positive value in a substraction. 
-    */
+    /// @notice function helper to get a positive value in a substraction. Similar to an absolute value in math. Seems to work fine 
     function positiveSubstraction (uint a, uint b) public pure returns (uint){
         if (a < b){
             return (b-a);

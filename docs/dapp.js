@@ -41,47 +41,6 @@ mmEnable.onclick = async () => {
 }
 
 
-/*
-// grab the button for input to a contract:
-
-ssSubmit.onclick = async () => {
-  // grab value from input
-  
-  const ssInputValue = document.getElementById('ss-input-box').value;
-  console.log(ssInputValue)
-
-  var web3 = new Web3(window.ethereum)
-
-  // instantiate smart contract instance
-  
-  const simpleStorage = new web3.eth.Contract(ssABI, ssAddress)
-  simpleStorage.setProvider(window.ethereum)
-
-  await simpleStorage.methods.store(ssInputValue).send({from: ethereum.selectedAddress})
-
-}
-
-const ssGetValue = document.getElementById('ss-get-value')
-
-ssGetValue.onclick = async () => {
-
-  var web3 = new Web3(window.ethereum)
-
-  const simpleStorage = new web3.eth.Contract(ssABI, ssAddress)
-  simpleStorage.setProvider(window.ethereum)
-
-  var value = await simpleStorage.methods.retrieve().call()
-
-  console.log(value)
-
-  const ssDisplayValue = document.getElementById('ss-display-value')
-
-  ssDisplayValue.innerHTML = 'Current Simple Storage Value: ' + value
-
-}
-
-*/
-
 // web 3 Interacions with the contract:
 
 let deployBet = document.getElementById('deploy-bet');
@@ -211,6 +170,7 @@ checkBet.onclick = async () => {
   document.getElementById("m3-bet-address").value = betRequestedAddress;
 };
 
+
 let checkWinner = document.getElementById('check-winner');
 
 checkWinner.onclick = async () => {
@@ -238,31 +198,6 @@ checkWinner.onclick = async () => {
    */ 
 
 }
-
-/*
-const ssGetValue = document.getElementById('ss-get-value')
-
-ssGetValue.onclick = async () => {
-
-  var web3 = new Web3(window.ethereum)
-
-  const simpleStorage = new web3.eth.Contract(ssABI, ssAddress)
-  simpleStorage.setProvider(window.ethereum)
-
-  var value = await simpleStorage.methods.retrieve().call()
-
-  console.log(value)
-
-  const ssDisplayValue = document.getElementById('ss-display-value')
-
-  ssDisplayValue.innerHTML = 'Current Simple Storage Value: ' + value
-
-}
-
-
-*/
-
-
 
 //***************************************MODAL 1*********************************** */
 // Get the modal
@@ -354,7 +289,7 @@ window.onclick = function(event) {
 
 
 // contract address:
-const betFactoryAddress = '0xe70982C0be9de5AD0b2E693E7873d9bdcb83818F'
+const betFactoryAddress = '0xbef22789b4Cde28738ecD347C8534D7586144495'
 
 const betABI = [
   {
@@ -476,25 +411,6 @@ const betABI = [
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "chainlinkAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "dueDate",
     "outputs": [
@@ -515,6 +431,19 @@ const betABI = [
         "internalType": "int256",
         "name": "",
         "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "numberOfTimeUnits",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -562,6 +491,19 @@ const betABI = [
   {
     "inputs": [],
     "name": "p2predictedValue",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "timeUnits",
     "outputs": [
       {
         "internalType": "uint256",
@@ -646,8 +588,7 @@ const betABI = [
   }
 ];
 
-const betFactoryABI =
-[
+const betFactoryABI = [
   {
     "inputs": [
       {
@@ -665,8 +606,7 @@ const betFactoryABI =
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -709,8 +649,7 @@ const betFactoryABI =
     "name": "createAndSendEther",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -769,7 +708,6 @@ const betFactoryABI =
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ];
