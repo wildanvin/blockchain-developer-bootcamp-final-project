@@ -93,9 +93,10 @@ contract Bet is PriceConsumerV3{
     /// @notice Through this function player 2 sets his predicted value and deposits his bettingAmount
     /// @param _p2predictedValue The predicted value of player 2
     function p2UpdatePredictedValueAndDeposit (uint _p2predictedValue) public payable {
+        require (msg.sender == p2, "Only player 2 can enter the bet");
         require(msg.value >= bettingAmount, "Player 2 should deposit at least the betting amount");
-        // require msg.sender == p2
         p2predictedValue = _p2predictedValue;
+        betState = BetState.agreed;
     }
     
     /// @notice This is the function used the determine who won
@@ -103,10 +104,13 @@ contract Bet is PriceConsumerV3{
     /// @param _p1 The predicted value of player 1
     /// @param _p2 The predicted value of player 2
     function calculateWinner (uint _p1, uint _p2) public {
-        //require(betState == BetState.agreed);
-        //require(msg.sender == p1 || msg.sender == p2)
-        //require(block.timestamp >= dueDate)
-        uint priceAtDueDate = uint(getLatestPrice());
+        require(betState == BetState.agreed);
+        require(msg.sender == p1 || msg.sender == p2);
+        require(block.timestamp >= dueDate);
+
+        //uint priceAtDueDate = uint(getLatestPrice()); //comment this line to deploy to testnets. Uncomment to deploy locally
+        uint priceAtDueDate = 423830969113; //comment this line to deploy locally. Uncomment to deploy to testnets
+        
         uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
         uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
         emit Scores(priceAtDueDate, p1Score, p2Score);
@@ -134,44 +138,6 @@ contract Bet is PriceConsumerV3{
         }
     }
     
-
-    /*
-     function calculateWinner (
-        uint _p1, 
-        uint _p2,
-        uint _testChainlinkValue
-        ) 
-        public
-       {
-        uint priceAtDueDate = _testChainlinkValue; 
-        uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
-        uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
-        
-        if (p1Score < p2Score){
-            betState = BetState.finished;
-            winnerIs = WinnerIs.player1;
-            uint amount = address(this).balance;
-            (bool success, ) = p1.call{value: amount}("");
-            require(success, "Failed to send Ether");
-        } else if (p2Score < p1Score){
-            betState = BetState.finished;
-            winnerIs = WinnerIs.player2;
-            uint amount = address(this).balance;
-            (bool success, ) = p2.call{value: amount}("");
-            require(success, "Failed to send Ether");
-        } else if (p1Score == p2Score){
-            betState = BetState.finished;
-            winnerIs = WinnerIs.draw;
-            uint amount = address(this).balance;
-            (bool success1, ) = p1.call{value: amount/2}("");
-            require(success1, "Failed to send Ether");
-            (bool success2, ) = p2.call{value: amount/2}("");
-            require(success2, "Failed to send Ether");
-        }
-    }
-    */   
-
-
     /// @notice function helper to get a positive value in a substraction. Similar to an absolute value in math. Seems to work fine 
     function positiveSubstraction (uint a, uint b) public pure returns (uint){
         if (a < b){
