@@ -289,7 +289,7 @@ window.onclick = function(event) {
 
 
 // contract address:
-const betFactoryAddress = '0xbef22789b4Cde28738ecD347C8534D7586144495'
+const betFactoryAddress = '0xdE800752cD65179329bbe00035a63e37dEe59498'
 
 const betABI = [
   {
@@ -331,7 +331,8 @@ const betABI = [
       }
     ],
     "stateMutability": "payable",
-    "type": "constructor"
+    "type": "constructor",
+    "payable": true
   },
   {
     "anonymous": false,
@@ -369,7 +370,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -382,7 +384,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -395,7 +398,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -408,7 +412,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -421,7 +426,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -434,7 +440,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -447,7 +454,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -460,7 +468,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -473,7 +482,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -486,7 +496,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -499,7 +510,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -512,7 +524,8 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -525,11 +538,13 @@ const betABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "stateMutability": "payable",
-    "type": "receive"
+    "type": "receive",
+    "payable": true
   },
   {
     "inputs": [
@@ -542,7 +557,8 @@ const betABI = [
     "name": "p2UpdatePredictedValueAndDeposit",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -584,7 +600,8 @@ const betABI = [
       }
     ],
     "stateMutability": "pure",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ];
 
@@ -606,7 +623,8 @@ const betFactoryABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -649,7 +667,8 @@ const betFactoryABI = [
     "name": "createAndSendEther",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
+    "type": "function",
+    "payable": true
   },
   {
     "inputs": [
@@ -708,6 +727,7 @@ const betFactoryABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ];
