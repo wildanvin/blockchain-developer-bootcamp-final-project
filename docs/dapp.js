@@ -605,7 +605,7 @@ const betABI = [
   }
 ];
 
-const betFactoryABI = [
+const betFactoryABI =  [
   {
     "inputs": [
       {
