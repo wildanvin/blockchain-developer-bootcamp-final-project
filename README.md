@@ -28,10 +28,11 @@ https://wildanvin.github.io/blockchain-developer-bootcamp-final-project/
 2. run in console: `npm install`
 3. open a new terminal and run `ganache cli`
 4. in the terminal where you cloned the project run: `truffle migrate --network development`
-5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 292
+5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 292. Hopefully that line number wont change, but I put the ABIs and the address at the very end of the dapp.js file so you will find it.
 6. run in console: npm run dev
 7. you now should be able to interact with the BetFactory.sol contract through the front-end in localhost:3000
-8. run `truffle test` in the terminal to see the tests passing (fingers crossed).
+8. Now that you are on the front end don't forget to change the network to Localhost:8545 and add an account using the mock private keys that ganache provides. 
+9. run `truffle test` in the terminal to see the tests passing (fingers crossed).
 
 Note: In the development network there is no chainlink price feed oracle. So for simplicity I hardcoded the value of ETH at $4238.31 in the contract Bet.sol in line 112. If you want to deploy to the kovan testnet you shold comment line 112 and uncomment line 111 in Bet.sol. (That is what I did for deploying to Kovan)
 ## Directory Structure
