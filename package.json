@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev": "lite-server"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "dotenv": "^10.0.0"
   },
   "devDependencies": {
-    "@truffle/hdwallet-provider": "^1.6.0"
+    "@truffle/hdwallet-provider": "^1.6.0",
+    "lite-server": "^2.6.1"
   }
 }

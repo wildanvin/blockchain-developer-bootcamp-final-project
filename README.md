@@ -1,3 +1,5 @@
+# Final project - BetsFriends
+## Project description
 BetsFriends is a simple betting dapp. 
 The bet can only occur between two people (only two wallets or accounts).
 
@@ -9,41 +11,48 @@ Lets say that you believe the price of ETH will be $15000 at the end of the year
 - Select the price you think the asset will go.
 - Select the amount you want to bet and a date in the future.
 - You will create a smart contract that will hold the funds of the bet.
-- Your friend will go to the smart contract that you created and match the amount you are betting.
+- Your friend will go to the smart contract that you created and match the amount you deposited.
 - When the date comes due you or your friend will have to call the smart contract, it will check the price using chainlink and will send the funds to the winner.
 
-## Project Structure
+## Deployed version URL
+https://wildanvin.github.io/blockchain-developer-bootcamp-final-project/
 
-- client folder: contains the HTML, CSS and Javascript files needed for the frontend. The front end is just vanillaJS.
-- contracts folder: 
+## Screencast Link
+## How to run the project locally
+### Prerequisites:
+- npm >= 6.13.4
+- node >= 12.16.1
+- truffle and ganache
+### Steps:
+1. clone the repository in empty directory.
+2. run in console: `npm install`
+3. open a new terminal and run `ganache cli`
+4. in the terminal where you cloned the project run: `truffle migrate --network development`
+5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 292
+6. run in console: npm run dev
+7. you now should be able to interact with the BetFactory.sol contract through the front-end in localhost:3000
+8. run `truffle test` in the terminal to see the tests passing (fingers crossed).
+
+Note: In the development network there is no chainlink price feed oracle. So for simplicity I hardcoded the value of ETH at $4238.31 in the contract Bet.sol in line 112. If you want to deploy to the kovan testnet you shold comment line 112 and uncomment line 111 in Bet.sol. (That is what I did for deploying to Kovan)
+## Directory Structure
+
+- `docs`: contains the HTML, CSS and Javascript files needed for the frontend. The front end is vanillaJS.
+- `contracts`: Smart contracts that are deployed in the Kovan testnet.
+- `migrations`: Migration files for deploying contracts in `contracts` directory.
+- `test`: Tests for smart contracts.
+- `utils`: Javascript code used for advance time in ganache.
+
+## Environment variables (not needed for running project locally)
+```
+KOVAN_INFURA_PROJECT_ID=
+KOVAN_MNEMONIC=
+```
+
+### Address for NFT certification:
+`0x4b2b0D5eE2857fF41B40e3820cDfAc8A9cA60d9f`
 
 
-## Run the project locally
 
-You will need:
-- node.js and npm.
-- truffle
-- ganache
-- LiveServer extension of VScode if you want to interact with the front end locally
-
-Steps:
-- clone the repository in empty directory.
-- run npm install.
-- open a new terminal and run ganache cli
-- run truffle migrate --network development
-- after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line :
-- start the LiveServer extension in VScode
-- you now should be able to interact with the BetFactory.sol contract through the front-end.
-
-Note: In the development network there is no chainlink price feed oracle by default. So for simplicity I hardcoded the value of ETH at $6000. In the contract. If you want to deploy to the kovan testnet you shold use the other function 
-
- ## deploy locally
-
- ## deploy to kovan 
-
-
-
-You can interact with this project in this link: 
 
 
 

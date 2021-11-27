@@ -108,8 +108,8 @@ contract Bet is PriceConsumerV3{
         require(msg.sender == p1 || msg.sender == p2);
         require(block.timestamp >= dueDate);
 
-        //uint priceAtDueDate = uint(getLatestPrice()); //comment this line to deploy to testnets. Uncomment to deploy locally
-        uint priceAtDueDate = 423830969113; //comment this line to deploy locally. Uncomment to deploy to testnets
+        //uint priceAtDueDate = uint(getLatestPrice()); //comment this line to deploy locally. Uncomment to deploy to testnets
+        uint priceAtDueDate = 423830969113; //comment this line to deploy to testnets. Uncomment to deploy locally. 
         
         uint p1Score = positiveSubstraction(priceAtDueDate, _p1);
         uint p2Score = positiveSubstraction(priceAtDueDate, _p2);
