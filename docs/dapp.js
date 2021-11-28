@@ -93,7 +93,7 @@ seeBet.onclick = async () => {
   let p1 = betRequested[0];
   let p2 = betRequested[1];
   let dueDate = betRequested[2];
-  let bettingAmount = betRequested[3];
+  //let bettingAmount = betRequested[3];
   //let asset = betRequested[4];
   let p1predictedValue = betRequested[5];
   let p2predictedValue = betRequested[6];
@@ -103,7 +103,7 @@ seeBet.onclick = async () => {
   document.getElementById("m2-p1").value = p1;
   document.getElementById("m2-p2").value = p2;
   document.getElementById("m2-due-time").value = dueDate;
-  document.getElementById("m2-betting-amount").value = bettingAmount;
+  //document.getElementById("m2-betting-amount").value = bettingAmount;
   document.getElementById("m2-balance").value = web3.utils.fromWei(
     betBalance,
     "ether"
@@ -112,16 +112,25 @@ seeBet.onclick = async () => {
   document.getElementById("m2-p2-predicted").value = p2predictedValue;
   document.getElementById("m2-bet-address").value = betRequestedAddress;
   
-  
-  console.log("hello");
-  let lengthArray = await betFactory.methods.bets(0).call();
-  console.log(lengthArray);
+  const betOnChain = new web3.eth.Contract(betABI, betRequestedAddress);
+  betOnChain.setProvider(window.ethereum);
+
+  let betState = await betOnChain.methods.betState().call();
+  let m2State = document.getElementById("m2-state");
+  if (betState == 0){
+    m2State.innerHTML="State: Waiting for player 2"
+  } else if (betState == 1){
+    m2State.innerHTML="State: Bet agreed. Let's see who wins"
+  } else if (betState == 2){
+    m2State.innerHTML='State: Bet finished. Go to "Check bet"'
+  }
 };
 
 let enterBet = document.getElementById('enter-bet');
 
 enterBet.onclick = async () => {
-  let bettingAmount = document.getElementById('m2-betting-amount').value;
+  //let bettingAmount = document.getElementById('m2-betting-amount').value;
+  let bettingAmount = (document.getElementById('m2-balance').value * 10e17).toString();
   let betAddress = document.getElementById('m2-bet-address').value;
   let p2predictedValue = document.getElementById('m2-p2-predicted').value;
   
@@ -133,10 +142,18 @@ enterBet.onclick = async () => {
   await betInstance.methods.p2UpdatePredictedValueAndDeposit(
     p2predictedValue).send({
       from: ethereum.selectedAddress, 
-      //value:web3.utils.toWei(bettingAmount, "ether")
-      value:bettingAmount
+      //value:bettingAmount
+      value:web3.utils.toBN(bettingAmount)
     });
 
+/*
+let bettingAmount = (document.getElementById('betting-amount').value * 10e17).toString();
+
+
+send({from: ethereum.selectedAddress, 
+      value:web3.utils.toBN(bettingAmount)
+    });
+*/
 }
 
 let checkBet = document.getElementById("m3-check-bet");

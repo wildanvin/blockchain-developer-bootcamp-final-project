@@ -22,7 +22,7 @@
     <p> In web 2.0 you were able chat with your friends around the world. In web 3.0 you will be able to do anything 
       money-related with your friends around the world. Bets are money related, so I made this little dapp with love. 
     </p>
-
+    
     <p>There are no fees for the "house", since when you bet with friends there is no "house".
       The only fees are for use the network.</p>
   </div>
@@ -86,17 +86,25 @@
       <p>There are currently 234 bets</p>
       <p>Enter Bet Number:</p> <input id="m2-bet-number" type="number">
       <button id="m2-see-bet">See</button>
-      <p>Player 1 address: </p> <input id="m2-p1" type="text" disabled>
+
+      <div>
+        <p>Player 1 address: </p> <input id="m2-p1" type="text" disabled>
+      
+        <p>Player 1 predicted value:</p> <input id="m2-p1-predicted" type="number" disabled>
+      </div>
+
       <p>Player 2 address:</p> <input id="m2-p2" type="text" disabled>
-      <p>Due Time: </p> <input id="m2-due-time" type="text" disabled>
-      <p>Betting Amount (in ETH):</p> <input id="m2-betting-amount" type="number" disabled>
-      <p>Asset price you are betting on: ETH</p>
-      <p>Player 1 has deposited (in ETH): </p> <input type="text" id="m2-balance" disabled>
-      <p>Player 1 predicted value:</p> <input id="m2-p1-predicted" type="number" disabled>
       <p>Player 2 predicted value:</p> <input id="m2-p2-predicted" type="number">
-      <p>Bet Address on-chain: </p> <input type="text" id="m2-bet-address">
-      <p>State: </p>
-      <p>The winner is: </p>
+
+      <p>Due Time: </p> <input id="m2-due-time" type="text" disabled>
+      <!--
+      <p>Betting Amount (in ETH):</p> <input id="m2-betting-amount" type="number" disabled>
+      -->
+      <p>Player 2 will deposit (in ETH): </p> <input type="text" id="m2-balance" disabled>
+      
+      <p>Bet Address on-chain: </p> <input type="text" id="m2-bet-address" disabled>
+      
+      <p id="m2-state">State: </p>
 
       <button id="enter-bet">Enter Bet</button>
     </div>
