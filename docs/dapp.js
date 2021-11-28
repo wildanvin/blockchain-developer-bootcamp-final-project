@@ -41,7 +41,7 @@ mmEnable.onclick = async () => {
 }
 
 
-// web 3 Interacions with the contract:
+// web 3 Interactions with the contract:
 
 let deployBet = document.getElementById('deploy-bet');
 
@@ -112,6 +112,10 @@ seeBet.onclick = async () => {
   document.getElementById("m2-p2-predicted").value = p2predictedValue;
   document.getElementById("m2-bet-address").value = betRequestedAddress;
   
+  
+  console.log("hello");
+  let lengthArray = await betFactory.methods.bets(0).call();
+  console.log(lengthArray);
 };
 
 let enterBet = document.getElementById('enter-bet');

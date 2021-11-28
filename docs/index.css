@@ -1,9 +1,45 @@
 body {
-    background-color: yellow;
+  background-color: yellow;
 }
 
 header {
-    display: flex;
+  display: grid;
+  grid-template-columns: 1fr 0.25fr;
+}
+
+#metamask{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+#mm-detected{
+  margin: 5%;  
+  /*justify-self: center; 
+  align-self: start;*/
+}
+
+#mm-connect{
+  margin: 5%;
+}
+
+
+button {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.input-field{
+  display: flex;
 }
 
 
@@ -28,7 +64,13 @@ header {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 45%; /* Could be more or less, depending on screen size */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
   }
   
   /* The Close Button */

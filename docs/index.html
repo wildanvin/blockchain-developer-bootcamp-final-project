@@ -11,15 +11,20 @@
 </head>
 <body>
   <header>
-    <h1>BetsFriends</h1>
-    <button id="mm-connect">Connect Metamask</button>
-    <div id="mm-detected"></div>
+    <h1 id="pageTitle">BetsFriends</h1>
+    <div id="metamask">   
+      <button id="mm-connect">Connect Metamask</button>
+      <div id="mm-detected"></div>
+    </div>
   </header>
   
   <div>
     <p> In web 2.0 you were able chat with your friends around the world. In web 3.0 you will be able to do anything 
       money-related with your friends around the world. Bets are money related, so I made this little dapp with love. 
     </p>
+
+    <p>There are no fees for the "house", since when you bet with friends there is no "house".
+      The only fees are for use the network.</p>
   </div>
 
   <div>
@@ -40,21 +45,23 @@
       <p id="p1-address">Player 1 address: </p> 
       <p>Player 2 address:</p> <input id="p2-address" type="text">
       <br>
-      <p>Due Time: </p>
-      <select id="number-of-time-units">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-      <select id="time-units">
-        <option value="1">minutes</option>
-        <option value="2">hours</option>
-        <option value="3">days</option>
-        <option value="4">weeks</option>
-        <option value="5">months</option>
-      </select>
+      <div>
+        <p>Due Time: </p>
+        <select id="number-of-time-units">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <select id="time-units">
+          <option value="1">minutes</option>
+          <option value="2">hours</option>
+          <option value="3">days</option>
+          <option value="4">weeks</option>
+          <option value="5">months</option>
+        </select>
+      </div>
 
       <p>Betting Amount (in ETH)): </p> <input id="betting-amount" type="text">
       <p>Asset: </p> 
@@ -123,12 +130,7 @@
 
   </div>
   
-  <footer>
-    <p>Some considerations:</p>
-    <p>There are no fees for the "house", since when you bet with friends there is no "house".
-       The only fees are for use the network.</p>
-    <p>Please make any suggestions.</p>
-  </footer>
+
 </body>
 
 <script src="dapp.js"></script>
