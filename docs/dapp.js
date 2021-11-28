@@ -310,7 +310,7 @@ window.onclick = function(event) {
 
 
 // contract address:
-const betFactoryAddress = '0xdE800752cD65179329bbe00035a63e37dEe59498'
+const betFactoryAddress = '0x8f549Ff75E12496e98101e4BD3FFB3893A24aDE8'
 
 const betABI = [
   {
@@ -644,8 +644,7 @@ const betFactoryABI =  [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -688,8 +687,7 @@ const betFactoryABI =  [
     "name": "createAndSendEther",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -748,7 +746,19 @@ const betFactoryABI =  [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getBetsCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "count",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ];

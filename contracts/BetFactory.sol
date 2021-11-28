@@ -77,6 +77,10 @@ contract BetFactory{
         );
         
     }
+
+    function getBetsCount() public view returns(uint count) {
+        return bets.length;
+    }
 }
 
 
