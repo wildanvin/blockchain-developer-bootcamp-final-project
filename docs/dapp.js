@@ -268,13 +268,14 @@ checkWinner.onclick = async () => {
     .on("receipt", async function (receipt) {
 
       let priceAtDueDate = await betInstance.methods.getLatestPrice().call();
-      //let priceAtDueDate = 4238
-      //console.log(priceAtDueDate);
+      //let priceAtDueDate = 423830969113
       
       let winner = await betInstance.methods.winnerIs().call();
-      //console.log(`Winner is ${winner}`);
-      alert(`Price at due date was: ${priceAtDueDate}. The winner is player ${winner}`)
+      
+      alert(`Price at due date is: \$${(priceAtDueDate/10e7).toFixed(2)}. The winner is player ${winner}! Congratulations! Funds have been deposited`)
     });
+
+    
 };
 
 //***************************************MODAL 1*********************************** */
