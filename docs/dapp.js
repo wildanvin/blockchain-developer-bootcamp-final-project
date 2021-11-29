@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
     if (window.ethereum.isMetaMask === true) {
       console.log("MetaMask is active");
       let mmDetected = document.getElementById("mm-detected");
-      mmDetected.innerHTML += "MetaMask Is Available!";
+      mmDetected.innerHTML += "MetaMask Is Available!. Conecct to Kovan please";
 
       // add in web3 here
       var web3 = new Web3(window.ethereum);
