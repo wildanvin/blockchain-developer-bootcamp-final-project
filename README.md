@@ -34,7 +34,7 @@ If you want to deploy to kovan you have to change nothing.
 
 1. clone the repository in empty directory.
 2. run in console: `npm install`
-3. open a new terminal and run `ganache cli`
+3. open a new terminal and run `ganache-cli`
 4. in the terminal where you cloned the project run: `truffle migrate --network development`
 5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 383.
 6. run in console: npm run dev
