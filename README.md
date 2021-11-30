@@ -15,6 +15,7 @@ Lets say that you believe the price of ETH will be $15000 at the end of the year
 - When the date comes due you or your friend will have to call the smart contract, it will check the price using chainlink and will send the funds to the winner.
 
 ## Deployed version URL
+You can interact with the dapp in this link:
 https://wildanvin.github.io/blockchain-developer-bootcamp-final-project/
 
 ## Screencast Link
@@ -24,17 +25,23 @@ https://wildanvin.github.io/blockchain-developer-bootcamp-final-project/
 - node >= 12.16.1
 - truffle and ganache
 ### Steps:
+Note: This project makes use of the chainlink price feed oracle but I didn't implement one in the development network. So for simplicity I hardcoded the value of ETH at $4238.31 in the contract Bet.sol in line 112 and in the dapp.js file in line 271.
+So for run the project locally you should:
+- In the file Bet.sol: comment line 111 and uncomment line 112
+- In the file dapp.js: comment line 270 and uncomment line 271
+If you want to deploy to kovan you have to change nothing.
+
 1. clone the repository in empty directory.
 2. run in console: `npm install`
 3. open a new terminal and run `ganache cli`
 4. in the terminal where you cloned the project run: `truffle migrate --network development`
-5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 292. Hopefully that line number wont change, but I put the ABIs and the address at the very end of the dapp.js file so you will find it.
+5. after the successfull migration you have to copy the address of the deployed BetFactory.sol contract and paste it in dapp.js file in the line 383.
 6. run in console: npm run dev
 7. you now should be able to interact with the BetFactory.sol contract through the front-end in localhost:3000
 8. Now that you are on the front end don't forget to change the network to Localhost:8545 and add an account using the mock private keys that ganache provides. 
 9. run `truffle test` in the terminal to see the tests passing (fingers crossed).
 
-Note: In the development network there is no chainlink price feed oracle. So for simplicity I hardcoded the value of ETH at $4238.31 in the contract Bet.sol in line 112. If you want to deploy to the kovan testnet you shold comment line 112 and uncomment line 111 in Bet.sol. (That is what I did for deploying to Kovan)
+
 ## Directory Structure
 
 - `docs`: contains the HTML, CSS and Javascript files needed for the frontend. The front end is vanillaJS.
