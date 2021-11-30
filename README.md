@@ -19,6 +19,7 @@ You can interact with the dapp in this link:
 https://wildanvin.github.io/blockchain-developer-bootcamp-final-project/
 
 ## Screencast Link
+Video demo in Youtube: https://youtu.be/qE5GaS3R6DU
 ## How to run the project locally
 ### Prerequisites:
 - npm >= 6.13.4
